@@ -1,66 +1,43 @@
-# eaui
+<p align="center">
+  <a href="https://github.com/oyo-cool/eaui" target="_blank">
+    <img alt="EAUI Logo" width="200" src="https://oyo.cool/usr/uploads/2024/09/2463723242.png">
+  </a>
+</p>
 
-This template should help get you started developing with Vue 3 in Vite.
+<p align="center">
+  <a href="https://github.com/oyo-cool/eaui/releases/"><img src="https://img.shields.io/github/v/release/oyo-cool/eaui" alt="node compatibility"></a>
+  <a href="https://nodejs.org/en/about/releases/"><img src="https://img.shields.io/node/v/vite.svg" alt="node compatibility"></a>
+  <a href="https://github.com/oyo-cool/eaui/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/oyo-cool/eaui" alt="License">
+  </a>
+</p>
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+English | [简体中文](./README-zh_CN.md)
 
-## Recommended IDE Setup
+EAUI (Easy Ad UI) is a UI component library optimized for advertising design, based on TDesign and developed using Vue3, TypeScript, and Vite. Its aim is to provide a set of simple, efficient, and flexible components to help developers quickly build high-quality advertising interfaces.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+# 📦 Installation
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
+```shell
+npm i eaui
 ```
 
-### Compile and Hot-Reload for Development
+# 🔨 Usage
 
-```sh
-pnpm dev
+```js
+// TODO 使用演示
 ```
 
-### Type-Check, Compile and Minify for Production
+# Contributing
 
-```sh
-pnpm build
-```
+EAUI 欢迎任何愿意参与贡献的参与者。如果需要本地运行代码或参与贡献，请先阅读[参与贡献](https://github.com/oyo-cool/eaui/blob/main/CONTRIBUTING.md)。
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## Contributors
 
-```sh
-pnpm test:unit
-```
+<a href="https://github.com/oyo-cool/eaui/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=oyo-cool/eaui" />
+</a>
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+# License
 
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-pnpm build
-
-# Runs the end-to-end tests
-pnpm test:e2e
-# Runs the tests only on Chromium
-pnpm test:e2e --project=chromium
-# Runs the tests of a specific file
-pnpm test:e2e tests/example.spec.ts
-# Runs the tests in debug mode
-pnpm test:e2e --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+EAUI 遵循 [MIT 协议](https://github.com/oyo-cool/eaui/blob/main/LICENSE)。
