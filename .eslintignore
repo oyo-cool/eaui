@@ -1,0 +1,11 @@
+dist
+lib
+es
+esm
+node_modules
+static
+cypress
+playwright-report
+tests-results
+static/
+!.prettierrc.js
