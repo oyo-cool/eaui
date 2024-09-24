@@ -30,7 +30,7 @@ npm i eaui
 
 # Contributing
 
-EAUI 欢迎任何愿意参与贡献的参与者。如果需要本地运行代码或参与贡献，请先阅读[参与贡献](https://github.com/oyo-cool/eaui/blob/main/CONTRIBUTING.md)。
+EAUI welcomes any participant willing to contribute. If you need to run code locally or participate in contributions, please read the [guidelines for contributing](https://github.com/oyo-cool/eaui/blob/main/CONTRIBUTING.md) first.
 
 ## Contributors
 
@@ -40,4 +40,4 @@ EAUI 欢迎任何愿意参与贡献的参与者。如果需要本地运行代码
 
 # License
 
-EAUI 遵循 [MIT 协议](https://github.com/oyo-cool/eaui/blob/main/LICENSE)。
+The MIT License. Please see [the license file](https://github.com/oyo-cool/eaui/blob/main/LICENSE) for more information.
