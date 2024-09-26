@@ -21,14 +21,16 @@ pnpm run dev
 ## 目录结构
 
 ```
-// TOOD 待完善
-eaui
-├── package.json
-├── src
-│   ├── package
-│   │   ├── index.ts
-│   │   ├── index.vue
-│   │
+src
+└── package // 组件库
+    ├── index.ts // 组件库入口
+    └── schedule // 组件
+        ├── __tests__ // 测试
+        ├── index.ts // 组件入口
+        ├── props.ts // 组件 props
+        ├── src // 组件源码
+        ├── style // 组件样式
+        └── type.ts // 组件类型
 ```
 
 ## 分支规范
@@ -64,4 +66,22 @@ git merge upstream/develop
 
 ## 开发规范
 
-// TODO 待完善
+### 目录的命名规范
+
+1.目录名全部使用小写，单词需采用复数形式，kebab-case形式命名，如果需要有多个单词表达，使用中划线连接。如new-page、components。
+
+### 文件的命名规范
+
+文件的命名规范按照不同情况进行命名
+
+1.如果该文件是单文件组件/类，采用PascalCase形式命名，方便导入和使用。如TDesignSelect.vue
+
+2.如果该文件是目录下的主文件，采用 index 名称命名，方便导入。如 index.ts, index.vue
+
+3.如果该文件是接口定义文件，采用camelCase形式命名，方便区分文件关联性。如 list.ts 和 listModel.ts
+
+4.如果该文件是资源/样式文件，采用kebab-case形式命名。
+
+### 类及接口的命名规范
+
+1.采用PascalCase形式命名。
