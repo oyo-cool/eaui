@@ -31,6 +31,7 @@
     "eslint.packageManager": "pnpm",
   },
   "rules": {
+    "no-unused-expressions": "off",
     "no-console": "off",
     "no-continue": "off",
     "no-restricted-syntax": "off",
@@ -53,6 +54,7 @@
     "import/first": "off", // https://github.com/vuejs/vue-eslint-parser/issues/58
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
     "vue/first-attribute-linebreak": 0,
     "class-methods-use-this": "off",
 
@@ -79,12 +81,8 @@
   },
   "overrides": [
     {
-      "files": [
-        "e2e/**/*.{test,spec}.{js,ts,jsx,tsx}"
-      ],
-      "extends": [
-        "plugin:playwright/recommended"
-      ]
+      "files": ["e2e/**/*.{test,spec}.{js,ts,jsx,tsx}"],
+      "extends": ["plugin:playwright/recommended"],
     },
     {
       "files": ["*.vue"],
