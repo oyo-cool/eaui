@@ -14,7 +14,12 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     TButton: typeof import('tdesign-vue-next')['Button']
+    TCheckbox: typeof import('tdesign-vue-next')['Checkbox']
+    TCol: typeof import('tdesign-vue-next')['Col']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    TRow: typeof import('tdesign-vue-next')['Row']
+    TSpace: typeof import('tdesign-vue-next')['Space']
+    TTable: typeof import('tdesign-vue-next')['Table']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }
 }
