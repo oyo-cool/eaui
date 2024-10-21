@@ -9,13 +9,14 @@
       </t-col>
       <t-col>
         <t-table
-          row-key="id"
+          row-key="time"
           :data="tableData"
           :columns="columns"
+          :rowspan-and-colspan="rowspanAndColspan"
           bordered
-          @mousedown="handleMousedown"
-          @mouseup="handleMouseup"
-          @mousemove="handleMousemove"
+          @on-row-mousedown="handleMousedown"
+          @on-row-mouseup="handleMouseup"
+          @on-row-mouseover="handleMousemove"
         >
           <template #cell="{ col, row }">
             {{ col }} 1
@@ -37,15 +38,45 @@
 </template>
 
 <script setup lang="tsx">
-import type { TableProps, TableRowData } from 'tdesign-vue-next';
+import type { PrimaryTableCol, TableProps, TableRowData } from 'tdesign-vue-next';
 import { ref } from 'vue';
 
-const days = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+import type { EuScheduleProps } from '../type';
 
-const showCheckbox = ref(true);
+const { schedule_time = '', precision = 0.5, showCheckbox = false } = defineProps<EuScheduleProps>();
+
+console.log('schedule_time', schedule_time);
+
+const emits = defineEmits(['receive']);
+
 const selectedTimes = ref<{ [key: string]: boolean }>({});
 
+const days = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
 const tableData: TableProps['data'] = days.flatMap((day) => [{ time: day }]);
+
+const precisionMin = Math.min(precision, 1);
+const colspanMin = Math.ceil(1 / precisionMin);
+const totalHours = 24;
+const totalColumns = totalHours / precisionMin;
+
+const createColumn = (prefix: string, start: number): PrimaryTableCol<TableRowData> => {
+  return {
+    title: start === 0 ? '00:00 - 12:00' : '12:00 - 24:00',
+    colKey: prefix,
+    align: 'center',
+    children: Array.from({ length: totalColumns / 2 }, (_, index) => {
+      const colspan = precisionMin < 1 && index % 2 === 0 ? colspanMin : 0;
+      const title = (Math.floor(index / 2) + start).toString();
+      return {
+        title,
+        colKey: `${prefix}${index}`,
+        align: 'center',
+        width: 50 * precisionMin,
+        colspan,
+      };
+    }),
+  };
+};
 
 const columns: TableProps['columns'] = [
   {
@@ -54,132 +85,29 @@ const columns: TableProps['columns'] = [
     align: 'center',
     width: 100,
     cell: (h, { row }) => {
-      return showCheckbox.value ? (
+      return showCheckbox ? (
         <t-checkbox onChange={(checked: boolean) => handleCheckboxChange(checked, row)}>{row.time}</t-checkbox>
       ) : (
         row.time
       );
     },
   },
-  {
-    title: '00:00 - 12:00',
-    colKey: 'am',
-    align: 'center',
-    children: [
-      {
-        title: '0',
-        align: 'center',
-      },
-      {
-        title: '1',
-        align: 'center',
-      },
-      {
-        title: '2',
-        align: 'center',
-      },
-      {
-        title: '2',
-        align: 'center',
-      },
-      {
-        title: '3',
-        align: 'center',
-      },
-      {
-        title: '4',
-        align: 'center',
-      },
-      {
-        title: '5',
-        align: 'center',
-      },
-      {
-        title: '6',
-        align: 'center',
-      },
-      {
-        title: '7',
-        align: 'center',
-      },
-      {
-        title: '8',
-        align: 'center',
-      },
-      {
-        title: '9',
-        align: 'center',
-      },
-      {
-        title: '10',
-        align: 'center',
-      },
-      {
-        title: '11',
-        align: 'center',
-      },
-    ],
-  },
-  {
-    title: '12:00 - 24:00',
-    colKey: 'pm',
-    align: 'center',
-    children: [
-      {
-        title: '11',
-        align: 'center',
-      },
-      {
-        title: '12',
-        align: 'center',
-      },
-      {
-        title: '13',
-        align: 'center',
-      },
-      {
-        title: '14',
-        align: 'center',
-      },
-      {
-        title: '15',
-        align: 'center',
-      },
-      {
-        title: '16',
-        align: 'center',
-      },
-      {
-        title: '17',
-        align: 'center',
-      },
-      {
-        title: '18',
-        align: 'center',
-      },
-      {
-        title: '19',
-        align: 'center',
-      },
-      {
-        title: '20',
-        align: 'center',
-      },
-      {
-        title: '21',
-        align: 'center',
-      },
-      {
-        title: '22',
-        align: 'center',
-      },
-      {
-        title: '23',
-        align: 'center',
-      },
-    ],
-  },
+  createColumn('a', 0),
+  createColumn('p', 12),
 ];
+
+const rowspanAndColspan: TableProps['rowspanAndColspan'] = ({ col, rowIndex, colIndex }) => {
+  console.log('col ===>', col, 'rowIndex ===>', rowIndex, 'colIndex ===>', colIndex);
+  // if (colIndex === 0 && rowIndex % 2 === 0) {
+  //   return {
+  //     rowspan: 2,
+  //   };
+  // }
+  // return {
+  //   colspan: 2,
+  //   rowspan: 2,
+  // };
+};
 
 // 处理星期选择
 const handleCheckboxChange = (checked: boolean, row: TableRowData) => {
@@ -213,62 +141,10 @@ const handleMouseup = (event: MouseEvent) => {
 const handleMousemove = (event: MouseEvent) => {
   console.log('handleMousemove ====>', event);
 };
+
+emits('receive', '122');
 </script>
 
 <style lang="less" scoped>
-.eaui-schedule {
-  user-select: none;
-  border: 1px solid var(--td-gray-color-3);
-  border-radius: 4px;
-  overflow: hidden;
-  background-color: var(--td-font-white-1);
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 12px;
-    font-size: 12px;
-    line-height: 20px;
-
-    .explain {
-      display: flex;
-
-      .selected,
-      .selectable {
-        display: flex;
-        align-items: center;
-        margin-left: 11px;
-
-        &::before {
-          content: '';
-          display: block;
-          width: 12px;
-          height: 4px;
-          background-color: var(--td-brand-color-6);
-          border-radius: 2px;
-          margin-right: 8px;
-        }
-      }
-
-      .selectable::before {
-        border: 1px solid var(--td-gray-color-5);
-        background-color: transparent;
-      }
-    }
-  }
-
-  .empty {
-    text-align: center;
-  }
-}
-
-:deep(.t-table--bordered .t-table__content) {
-  border: none;
-  border-top: 1px solid var(--td-gray-color-3);
-}
-
-:deep(.t-table:not(.t-table--striped) .t-table__footer > tr) {
-  background-color: var(--td-bg-color-container);
-}
+@import '../style/index.less';
 </style>

@@ -1,4 +1,4 @@
-export interface EScheduleProps {
+export interface EuScheduleProps {
   /**
    * 排期时间
    */

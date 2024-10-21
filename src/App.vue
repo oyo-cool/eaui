@@ -1,6 +1,6 @@
 <template>
   <div>
-    <e-schedule />
+    <e-schedule schedule_time="" />
   </div>
 </template>
 
