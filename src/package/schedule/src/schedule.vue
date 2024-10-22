@@ -65,8 +65,8 @@ const createColumn = (prefix: string, start: number): PrimaryTableCol<TableRowDa
     colKey: prefix,
     align: 'center',
     children: Array.from({ length: totalColumns / 2 }, (_, index) => {
-      const colspan = precisionMin < 1 && index % 2 === 0 ? colspanMin : 0;
-      const title = (Math.floor(index / 2) + start).toString();
+      const colspan = precisionMin < 1 && index % colspanMin === 0 ? colspanMin : 0;
+      const title = (Math.floor(index / colspanMin) + start).toString();
       return {
         title,
         colKey: `${prefix}${index}`,
@@ -96,17 +96,11 @@ const columns: TableProps['columns'] = [
   createColumn('p', 12),
 ];
 
-const rowspanAndColspan: TableProps['rowspanAndColspan'] = ({ col, rowIndex, colIndex }) => {
-  console.log('col ===>', col, 'rowIndex ===>', rowIndex, 'colIndex ===>', colIndex);
-  // if (colIndex === 0 && rowIndex % 2 === 0) {
-  //   return {
-  //     rowspan: 2,
-  //   };
-  // }
-  // return {
-  //   colspan: 2,
-  //   rowspan: 2,
-  // };
+const rowspanAndColspan: TableProps['rowspanAndColspan'] = ({ colIndex }) => {
+  if (precision > 1 && colIndex % precision === 1) {
+    return { colspan: precision };
+  }
+  return { colspan: 1 };
 };
 
 // 处理星期选择
