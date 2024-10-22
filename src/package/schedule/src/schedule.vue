@@ -19,7 +19,7 @@
           @on-row-mouseover="handleMousemove"
         >
           <template #cell="{ col, row }">
-            {{ col }} 1
+            {{ col }}
             {{ row }}
             <t-checkbox
               v-if="col.colKey !== 'time'"
@@ -29,7 +29,23 @@
             />
           </template>
           <template #footerSummary>
-            <div class="empty">可拖动鼠标选择时间段</div>
+            <div v-if="!selectedTimesText.length" class="empty">可拖动鼠标选择时间段</div>
+            <t-row v-else>
+              <t-col :span="12">
+                <t-row justify="space-between">
+                  <t-col> 已选择时间段 </t-col>
+                  <t-col>
+                    <t-link hover="color" theme="primary" @click="handleClearSelectedTime"> 清空 </t-link>
+                  </t-col>
+                </t-row>
+              </t-col>
+              <t-col :span="12" class="margin-top-s">
+                <t-row v-for="item in selectedTimesText" :key="item.day" class="margin-top-s">
+                  <t-col :span="1"> {{ item.day }} </t-col>
+                  <t-col :span="11"> {{ item.time }} </t-col>
+                </t-row>
+              </t-col>
+            </t-row>
           </template>
         </t-table>
       </t-col>
@@ -51,8 +67,18 @@ const emits = defineEmits(['receive']);
 
 const selectedTimes = ref<{ [key: string]: boolean }>({});
 
-const days = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
-const tableData: TableProps['data'] = days.flatMap((day) => [{ time: day }]);
+const weekdays = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
+const tableData: TableProps['data'] = weekdays.flatMap((day) => [{ time: day }]);
+const selectedTimesText = ref([
+  {
+    day: '星期一',
+    time: '00:00-00:30、01:00-01:30、02:00-02:30、03:00-03:30、04:00-04:30、05:00-05:30、06:00-06:30、07:00-07:30、08:00-08:30、09:00-09:30、10:00-10:30、11:00-11:30、12:00-12:30、13:00-13:30、14:00-14:30、15:00-15:30、16:00-16:30、17:00-17:30、18:00-18:30、19:00-19:30、20:00-20:30、21:00-21:30、22:00-22:30、23:00-23:30',
+  },
+  {
+    day: '星期二',
+    time: '00:00-00:30、01:00-01:30、02:00-02:30、03:00-03:30、04:00-04:30、05:00-05:30',
+  },
+]);
 
 const precisionMin = Math.min(precision, 1);
 const colspanMin = Math.ceil(1 / precisionMin);
@@ -101,6 +127,10 @@ const rowspanAndColspan: TableProps['rowspanAndColspan'] = ({ colIndex }) => {
     return { colspan: precision };
   }
   return { colspan: 1 };
+};
+
+const handleClearSelectedTime = () => {
+  console.log('TODO ====> 处理清空时间选择');
 };
 
 // 处理星期选择
