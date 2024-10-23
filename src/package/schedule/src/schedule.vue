@@ -18,16 +18,6 @@
           @on-row-mouseup="handleMouseup"
           @on-row-mouseover="handleMousemove"
         >
-          <template #cell="{ col, row }">
-            {{ col }}
-            {{ row }}
-            <t-checkbox
-              v-if="col.colKey !== 'time'"
-              :checked="isTimeSelected(row, col.colKey)"
-              :style="{ backgroundColor: isTimeSelected(row, col.colKey) ? '#d1e7dd' : 'transparent' }"
-              @change="toggleTimeSelection(row, col.colKey)"
-            />
-          </template>
           <template #footerSummary>
             <div v-if="!selectedTimesText.length" class="empty">可拖动鼠标选择时间段</div>
             <t-row v-else>
@@ -65,7 +55,7 @@ console.log('schedule_time', schedule_time);
 
 const emits = defineEmits(['receive']);
 
-const selectedTimes = ref<{ [key: string]: boolean }>({});
+// const selectedTimes = ref<{ [key: string]: boolean }>({});
 
 const weekdays = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
 const tableData: TableProps['data'] = weekdays.flatMap((day) => [{ time: day }]);
@@ -99,6 +89,25 @@ const createColumn = (prefix: string, start: number): PrimaryTableCol<TableRowDa
         align: 'center',
         width: 50 * precisionMin,
         colspan,
+        className: (context) => {
+          // TODO 改为正常名称
+          if (context.type === 'td') return 'custom-class';
+          return '';
+        },
+        attrs: (context) => {
+          console.log(context);
+          if (context.type === 'td') {
+            return {
+              'data-active': false,
+              'data-week': context.row.time,
+              'data-time-index': start < 12 ? index : index + 24,
+              // TODO 计算index对应的时间范围
+              'data-start-time': '',
+              'data-end-time': '',
+            };
+          }
+          return {};
+        },
       };
     }),
   };
@@ -143,16 +152,16 @@ const handleCheckboxChange = (checked: boolean, row: TableRowData) => {
   }
 };
 
-// 判断时间是否被选择
-const isTimeSelected = (row: TableRowData, colKey: string) => {
-  return selectedTimes.value[`${row.time}-${colKey}`] || false;
-};
+// // 判断时间是否被选择
+// const isTimeSelected = (row: TableRowData, colKey: string) => {
+//   return selectedTimes.value[`${row.time}-${colKey}`] || false;
+// };
 
-// 切换时间选择状态
-const toggleTimeSelection = (row: TableRowData, colKey: string) => {
-  const key = `${row.time}-${colKey}`;
-  selectedTimes.value[key] = !selectedTimes.value[key]; // 切换选择状态
-};
+// // 切换时间选择状态
+// const toggleTimeSelection = (row: TableRowData, colKey: string) => {
+//   const key = `${row.time}-${colKey}`;
+//   selectedTimes.value[key] = !selectedTimes.value[key]; // 切换选择状态
+// };
 
 const handleMousedown = (event: MouseEvent) => {
   console.log('handleMousedown ===>', event);
