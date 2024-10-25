@@ -95,12 +95,12 @@ const createColumn = (prefix: string, start: number): PrimaryTableCol<TableRowDa
           return '';
         },
         attrs: (context) => {
-          console.log(context);
           if (context.type === 'td') {
+            const timeIndex = start < 12 ? index : index + 24;
             return {
               'data-active': false,
               'data-week': context.row.time,
-              'data-time-index': start < 12 ? index : index + 24,
+              'data-time-index': timeIndex,
               // TODO 计算index对应的时间范围
               'data-start-time': '',
               'data-end-time': '',
