@@ -48,12 +48,17 @@ import type { PrimaryTableCol, TableProps, TableRowData } from 'tdesign-vue-next
 import { ref } from 'vue';
 
 import type { EuScheduleProps } from '../type';
+import { generateTimeSlots } from './index';
 
-const { schedule_time = '', precision = 0.5, showCheckbox = false } = defineProps<EuScheduleProps>();
+const { schedule_time = '', precision = 4, showCheckbox = false } = defineProps<EuScheduleProps>();
 
 console.log('schedule_time', schedule_time);
 
 const emits = defineEmits(['receive']);
+
+const dataRangeTime = generateTimeSlots(precision);
+
+console.log('dataTime', dataRangeTime);
 
 // const selectedTimes = ref<{ [key: string]: boolean }>({});
 
@@ -73,14 +78,14 @@ const selectedTimesText = ref([
 const precisionMin = Math.min(precision, 1);
 const colspanMin = Math.ceil(1 / precisionMin);
 const totalHours = 24;
-const totalColumns = totalHours / precisionMin;
+const tableThLength = totalHours / precisionMin / 2;
 
 const createColumn = (prefix: string, start: number): PrimaryTableCol<TableRowData> => {
   return {
     title: start === 0 ? '00:00 - 12:00' : '12:00 - 24:00',
     colKey: prefix,
     align: 'center',
-    children: Array.from({ length: totalColumns / 2 }, (_, index) => {
+    children: Array.from({ length: tableThLength }, (_, index) => {
       const colspan = precisionMin < 1 && index % colspanMin === 0 ? colspanMin : 0;
       const title = (Math.floor(index / colspanMin) + start).toString();
       return {
@@ -90,18 +95,16 @@ const createColumn = (prefix: string, start: number): PrimaryTableCol<TableRowDa
         width: 50 * precisionMin,
         colspan,
         className: (context) => {
-          // TODO 改为正常名称
           if (context.type === 'td') return 'custom-class';
           return '';
         },
         attrs: (context) => {
           if (context.type === 'td') {
-            const timeIndex = start < 12 ? index : index + 24;
+            console.log('dataRangeTime =====>', dataRangeTime);
             return {
               'data-active': false,
               'data-week': context.row.time,
-              'data-time-index': timeIndex,
-              // TODO 计算index对应的时间范围
+              'data-time-index': '',
               'data-start-time': '',
               'data-end-time': '',
             };
